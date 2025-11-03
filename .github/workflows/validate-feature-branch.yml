@@ -1,9 +1,6 @@
 name: Validate feature branch
 
 on:
-  push:
-    branches:
-      - FEAT-**
   workflow_dispatch:
   pull_request:
     branches:
