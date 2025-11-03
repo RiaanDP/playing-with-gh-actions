@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - FEAT-**
+  workflow_dispatch:
 
 jobs:
   build:
