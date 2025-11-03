@@ -1,10 +1,10 @@
 name: Validate feature branch
 
 on:
-  push:
-    branches:
-      - FEAT-**
   workflow_dispatch:
+  pull_request:
+    branches:
+      - main
 
 jobs:
   build:
@@ -26,5 +26,9 @@ jobs:
           echo ""
           echo "Coverage: 85%"
           echo ""
-          echo "✅ Tests completed successfully!"
- 
+          if [ $((RANDOM % 2)) -eq 0 ]; then
+            echo "❌ Tests failed!"
+            exit 1
+          else
+            echo "✅ Tests passed!"
+          fi 

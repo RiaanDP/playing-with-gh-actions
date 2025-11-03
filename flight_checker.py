@@ -23,6 +23,11 @@ from datetime import datetime
 # Change 2
 # Change 3
 # Change 4
+# Change 7
+# Change 8
+# Change 9
+# Change 10
+# Change 11
 
 def check_flight_status(flight_number, api_key):
     """
