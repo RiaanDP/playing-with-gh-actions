@@ -1,0 +1,29 @@
+name: Validate feature branch
+
+on:
+  push:
+    branches:
+      - FEAT-**
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Simulate running unit tests
+        run: |
+          echo "🧪 Running unit tests for branch: ${{ github.ref_name }}"
+          echo "Commit: ${{ github.sha }}"
+          echo ""
+          echo "Test results:"
+          echo "  - Authentication tests: PASSED ✓"
+          echo "  - Database tests: PASSED ✓"
+          echo "  - API tests: PASSED ✓"
+          echo ""
+          echo "Coverage: 85%"
+          echo ""
+          echo "✅ Tests completed successfully!"
+ 
