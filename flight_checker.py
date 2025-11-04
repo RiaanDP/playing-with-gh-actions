@@ -33,6 +33,9 @@ from datetime import datetime
 # Change 14
 # Change 15
 
+# Change A
+# Change B
+
 def check_flight_status(flight_number, api_key):
     """
     Check the departure time and status of a flight
