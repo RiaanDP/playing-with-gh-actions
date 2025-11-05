@@ -1,24 +1,28 @@
 name: Validate feature branch
-
 on:
   workflow_dispatch:
   pull_request:
     branches:
       - main
-
 jobs:
   build:
     runs-on: ubuntu-latest
-    
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-
+        with:
+          fetch-depth: 0  # Fetch full history to access commit messages
+      
       - name: Simulate running unit tests
         run: |
           echo "🧪 Running unit tests for branch: ${{ github.ref_name }}"
           echo "Commit: ${{ github.sha }}"
+          
+          # Get the last commit message
+          COMMIT_MSG=$(git log -1 --pretty=%B)
+          echo "Commit message: $COMMIT_MSG"
           echo ""
+          
           echo "Test results:"
           echo "  - Authentication tests: PASSED ✓"
           echo "  - Database tests: PASSED ✓"
@@ -26,9 +30,11 @@ jobs:
           echo ""
           echo "Coverage: 85%"
           echo ""
-          if [ $((RANDOM % 2)) -eq 0 ]; then
-            echo "❌ Tests failed!"
+          
+          # Check if commit message contains [fail] or [break]
+          if echo "$COMMIT_MSG" | grep -qiE '\[(fail|break)\]'; then
+            echo "❌ Tests failed! (triggered by commit message)"
             exit 1
           else
             echo "✅ Tests passed!"
-          fi 
+          fi
