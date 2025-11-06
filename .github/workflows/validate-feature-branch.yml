@@ -10,17 +10,11 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0  # Fetch full history to access commit messages
       
       - name: Simulate running unit tests
         run: |
           echo "🧪 Running unit tests for branch: ${{ github.ref_name }}"
-          echo "Commit: ${{ github.sha }}"
-          
-          # Get the last commit message
-          COMMIT_MSG=$(git log -1 --pretty=%B)
-          echo "Commit message: $COMMIT_MSG"
+          echo "PR Title: ${{ github.event.pull_request.title }}"
           echo ""
           
           echo "Test results:"
@@ -31,9 +25,9 @@ jobs:
           echo "Coverage: 85%"
           echo ""
           
-          # Check if commit message contains [fail] or [break]
-          if echo "$COMMIT_MSG" | grep -qiE '\[(fail|break)\]'; then
-            echo "❌ Tests failed! (triggered by commit message)"
+          # Check if PR title contains [fail] or [break]
+          if echo "${{ github.event.pull_request.title }}" | grep -qiE '\[(fail|break)\]'; then
+            echo "❌ Tests failed! (triggered by PR title)"
             exit 1
           else
             echo "✅ Tests passed!"
